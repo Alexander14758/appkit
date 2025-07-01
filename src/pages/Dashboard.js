@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { createAppKit } from "@reown/appkit/react";
 import { WagmiProvider } from "wagmi";
-import { mainnet } from "@reown/appkit/networks";
+import { sepolia } from "@reown/appkit/networks";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
 import DeployButton from "../components/DeployButon";
@@ -25,7 +25,7 @@ const metadata = {
 };
 
 // Set networks
-const networks = [mainnet];
+const networks = [sepolia];
 
 // Create Wagmi Adapter
 const wagmiAdapter = new WagmiAdapter({
@@ -49,7 +49,7 @@ createAppKit({
   themeVariables: {
     "--w3m-color-mix": "#000a0e",
     "--w3m-color-mix-strength": 40,
-    "--w3m-accent": "#07072b",
+    "--w3m-accent": "#007d81",
   },
 });
 
@@ -91,7 +91,7 @@ export default function Dashboard() {
   return (
     <>
       <div>
-        <header className="header">
+        <header className="header fixed-top">
           <a href="#" className="logo">
             <ConnectStatus />
           </a>

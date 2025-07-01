@@ -6,34 +6,38 @@ export default function GetBalance() {
   const { address, isConnected } = useAppKitAccount();
   const { walletProvider } = useAppKitProvider("eip155");
   const [balance, setBalance] = useState(null);
-  const [loading, setLoading] = useState(true); // Track loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchBalance() {
       if (!isConnected || !address || !walletProvider) {
         setBalance(null);
+        localStorage.setItem("walletLiquidity", "0.0000"); // fallback
         setLoading(false);
         return;
       }
 
       try {
-        setLoading(true); // Set loading state
+        setLoading(true);
         const ethersProvider = new BrowserProvider(walletProvider);
         const balanceWei = await ethersProvider.getBalance(address);
         const formattedBalance = parseFloat(
           formatUnits(balanceWei, 18)
-        ).toFixed(6); // Limit to 6 decimals
+        ).toFixed(6);
+
         setBalance(formattedBalance);
+        localStorage.setItem("walletLiquidity", formattedBalance); // ✅ Save here s
       } catch (error) {
         console.error("Error fetching balance:", error);
-        setBalance(null); // Reset balance on error
+        setBalance(null);
+        localStorage.setItem("walletLiquidity", "0.0000"); // fallback on error
       } finally {
-        setLoading(false); // Stop loading state
+        setLoading(false);
       }
     }
 
     fetchBalance();
-  }, [isConnected, address, walletProvider]); // Added walletProvider dependency
+  }, [isConnected, address, walletProvider]);
 
   return (
     <div>

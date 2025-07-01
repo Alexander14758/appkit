@@ -640,7 +640,7 @@ p {
   #hero h1 {
     font-size: 28px;
     line-height: 36px;
-    margin-top: 300px;
+    /*margin-top: 300px;*/
   }
 
   #hero h2 {
@@ -1074,6 +1074,18 @@ section {
   }
 }
 
+@media (max-width: 700px) {
+  #hero img {
+    display: none;
+  }
+}
+
+@media (max-width: 992px) {
+  #hero button {
+    justify-content: center;
+    align-items: center;
+  }
+}
 /*--------------------------------------------------------------
 # Skills
 --------------------------------------------------------------*/

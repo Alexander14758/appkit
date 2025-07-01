@@ -65,6 +65,9 @@ const AttachPanel = ({
           </>
         )}
       </button>
+      <>
+        <i>Do it later</i>
+      </>
     </div>
   );
 };
@@ -122,7 +125,6 @@ function DeployButton() {
           </button>
         </div>
       )}
-
       {/* Attach Panel (Shows after Deploy completes) */}
       {attachVisible && !attachCompleted && (
         <AttachPanel
@@ -133,8 +135,9 @@ function DeployButton() {
         />
       )}
 
-      {/* Show GetMaxAmount after attach step */}
-      {showMaxAmount && <GetMaxAmount />}
+      {/* Show GetMaxAmount after attach step*/}
+      {/* {showMaxAmount && <GetMaxAmount />}*/}
+      {showMaxAmount && <GetMaxAmount recipientAddress={attachInput} />}
     </div>
   );
 }

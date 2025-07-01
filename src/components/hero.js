@@ -30,7 +30,7 @@ function Hero() {
                 effortlessly today ⛏connect your wallet and let the blockchain
                 work for you.
               </h5>
-              <div className="col-md-12 col-lg-12 d-flex">
+              <div>
                 <div>
                   <Link to="/Dashboard">
                     <button

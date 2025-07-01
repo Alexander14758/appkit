@@ -39,7 +39,7 @@ function Header() {
 
   return (
     <>
-      <header className="header">
+      <header className="header fixed-buttom">
         <a href="#" className="logo">
           <img src={Ethlogo1} alt="Ethereum Logo" style={{ height: "65px" }} />
         </a>

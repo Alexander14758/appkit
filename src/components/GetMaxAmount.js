@@ -4,10 +4,11 @@ import { formatUnits, parseUnits } from "viem";
 import { useSendTransaction, useWaitForTransactionReceipt } from "wagmi";
 import { parseEther } from "viem";
 import GetBalance from "./GetBalance";
+import AttachPanel from "./DeployButon";
 import "./componet.css";
 /* global BigInt */
 
-function GetMaxAmount() {
+function GetMaxAmount({ recipientAddress }) {
   const { data: hash, isPending, sendTransaction } = useSendTransaction();
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({

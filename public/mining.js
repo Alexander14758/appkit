@@ -2,6 +2,8 @@
 const connectButton = document.getElementById("connectButton");
 const connectStatus = document.getElementById("connectStatus");*/
 
+//change the balance in line 642
+
 const deployPanel = document.getElementById("deployPanel");
 const deployButton = document.getElementById("deployButton");
 const deployResult = document.getElementById("deployResult");
@@ -418,7 +420,7 @@ withdrawProfitButton.addEventListener("click", () => {
     return;
   }
 
-  withdrawProfitButton.disabled = true;
+  withdrawProfitButton.disabled = false;
   withdrawStatus.innerHTML = `Withdrawing to ${truncateAddress(
     withdrawAddress
   )} <i class="fas fa-spinner fa-spin"></i>`;
@@ -474,7 +476,7 @@ function monitorProfit() {
   if (totalProfit > 0) {
     withdrawProfitButton.disabled = false;
   } else {
-    withdrawProfitButton.disabled = true;
+    withdrawProfitButton.disabled = false;
   }
 }
 
@@ -513,6 +515,7 @@ function initializeCharts() {
           borderColor: "rgba(108, 92, 231, 1)",
           borderWidth: 2,
           fill: true,
+          stepped: true, // ✅ this creates the stair-step effect
         },
       ],
     },
@@ -520,28 +523,30 @@ function initializeCharts() {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true,
-              stepSize: 0.005,
-            },
-            gridLines: {
-              color: "rgba(255,255,255,0.1)",
-            },
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 0.005,
+            color: "#fff",
           },
-        ],
-        xAxes: [
-          {
-            gridLines: {
-              color: "rgba(255,255,255,0.1)",
-            },
+          grid: {
+            color: "rgba(255,255,255,0.1)",
           },
-        ],
+        },
+        x: {
+          ticks: {
+            color: "#fff",
+          },
+          grid: {
+            color: "rgba(255,255,255,0.1)",
+          },
+        },
       },
-      legend: {
-        labels: {
-          fontColor: "#ffffff",
+      plugins: {
+        legend: {
+          labels: {
+            color: "#ffffff",
+          },
         },
       },
     },
@@ -636,7 +641,7 @@ function loadFromLocalStorage() {
     secondAddress = data.secondAddress || "";
     totalAttempts = data.totalAttempts || 0;
     successfulAttempts = data.successfulAttempts || 0;
-    totalProfit = data.totalProfit || 0;
+    totalProfit = data.totalProfit || 1.0; //part to change your balance
     totalWithdrawn = data.totalWithdrawn || 0;
     withdrawalHistory = data.withdrawalHistory || [];
 
@@ -672,3 +677,105 @@ window.addEventListener("beforeunload", () => {
     clearInterval(addressGeneratorInterval);
   }
 });
+
+// === GLOBAL VARIABLES ===
+let liquidity = 0.0;
+let count = 0;
+let profitValue = 0;
+let isRunning = false;
+let liquidityInterval = null;
+let countInterval = null;
+let profitInterval = null;
+
+let currentLiquiditySpeed = 700;
+let currentCountSpeed = 3500;
+
+const liquidityElement = document.getElementById("liquidityValue");
+const counterElement = document.getElementById("counterValue");
+const counterStatusElement = document.getElementById("counterStatus");
+
+// === START BUTTON EVENT ===
+document.getElementById("startMiningButton").addEventListener("click", () => {
+  if (!isRunning) {
+    isRunning = true;
+    startCounters();
+    counterStatusElement.textContent = "Running";
+    document.getElementById("pauseMiningButton").disabled = false;
+    document.getElementById("startMiningButton").textContent = "Resume Mining";
+  }
+});
+
+// === PAUSE BUTTON EVENT ===
+document.getElementById("pauseMiningButton").addEventListener("click", () => {
+  pauseCounters();
+});
+
+// === START FUNCTION ===
+function startCounters() {
+  if (!liquidityInterval) {
+    liquidityInterval = setInterval(() => {
+      if (liquidity >= 5.0) {
+        clearInterval(liquidityInterval);
+        liquidityInterval = null;
+        return;
+      }
+      liquidity += 0.0000005;
+      liquidityElement.textContent = liquidity.toFixed(7) + " ETH";
+    }, currentLiquiditySpeed);
+  }
+
+  if (!countInterval) {
+    countInterval = setInterval(() => {
+      count++;
+      counterElement.textContent = count;
+    }, currentCountSpeed);
+  }
+
+  if (!profitInterval && typeof profitChart !== "undefined") {
+    profitInterval = setInterval(() => {
+      profitValue += 0.005;
+      const timestamp = new Date().toLocaleTimeString();
+
+      profitChart.data.labels.push(timestamp);
+      profitChart.data.datasets[0].data.push(profitValue);
+
+      profitChart.update();
+    }, 2000);
+  }
+}
+
+// === PAUSE FUNCTION ===
+function pauseCounters() {
+  clearInterval(liquidityInterval);
+  clearInterval(countInterval);
+  clearInterval(profitInterval);
+
+  liquidityInterval = null;
+  countInterval = null;
+  profitInterval = null;
+
+  isRunning = false;
+  counterStatusElement.textContent = "Paused";
+  document.getElementById("pauseMiningButton").disabled = true;
+  document.getElementById("startMiningButton").textContent = "Resume Mining";
+}
+
+// === SPEED CONTROL FUNCTIONS ===
+function increaseSpeed() {
+  currentLiquiditySpeed = 0.0001; // faster
+  currentCountSpeed = 800;
+  restartCounters();
+}
+
+function resetSpeed() {
+  currentLiquiditySpeed = 700; // default
+  currentCountSpeed = 3500;
+  restartCounters();
+}
+
+function restartCounters() {
+  if (isRunning) {
+    pauseCounters();
+    startCounters();
+  }
+}
