@@ -1,0 +1,21 @@
+.attachButton {
+  margin-bottom: 25px;
+}
+
+#deployPanel {
+  top: 99px;
+  height: 90px;
+}
+
+#attachPanel {
+  top: 99px;
+  height: 160px;
+}
+
+#confirmPanel {
+  top: 99px;
+}
+
+#confirmStatus {
+  top: 99px;
+}

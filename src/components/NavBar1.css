@@ -1,0 +1,112 @@
+nav {
+  margin: 27px auto 0;
+  position: relative;
+  width: 300px;
+  height: 50px;
+  background-color: #34495e;
+  border-radius: 8px;
+  font-size: 0;
+  margin-bottom: 35px;
+  margin-left: -26px;
+  /*margin-right: 32%;*/
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-link {
+  line-height: 39px;
+  height: 100%;
+  font-size: 15px;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+}
+
+nav .animation {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  z-index: 0;
+  transition: all 0.5s ease 0s;
+  border-radius: 8px;
+}
+
+.nav-link:nth-child(1) {
+  /*width: 100px;*/
+}
+.nav-link:nth-child(2) {
+  width: 100px;
+}
+a:nth-child(3) {
+  width: 100px;
+}
+
+nav .start-home,
+.nav-link:nth-child(1):hover ~ .animation {
+  width: 100px;
+  left: 0;
+  background-color: #1abc9c;
+}
+nav .start-FAQ,
+.nav-link:nth-child(2):hover ~ .animation {
+  width: 100px;
+  left: 100px;
+  background-color: #e74c3c;
+}
+nav .start-GUILD,
+a:nth-child(3):hover ~ .animation {
+  width: 100px;
+  left: 200px;
+  background-color: #3498db;
+}
+
+body {
+  font-size: 12px;
+  font-family: sans-serif;
+  background: #2c3e50;
+}
+
+h1 {
+  text-align: center;
+  margin: 40px 0 15px;
+  text-align: center;
+  font-size: 30px;
+  color: #ecf0f1;
+  text-shadow: 2px 2px 4px #000000;
+  font-family: "Cherry Swash", cursive;
+}
+
+p {
+  position: relative; /* Removed absolute positioning */
+  width: 104%; /* Adjust width to make it fit well inside a box */
+  max-width: 310px; /* Prevent it from stretching too much */
+  text-align: center; /* Center the text */
+  color: #ecf0f1;
+  font-family: sans-serif;
+  font-size: 16px;
+  padding: 6px; /* Add space inside the box */
+  /*border: 2px solid #ecf0f1; /* Add a border to contain the text */
+  border-radius: 10px; /* Rounded edges */
+  margin: auto; /* Center it horizontally */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*height: 68vh; /* Makes it take full screen height */
+}
+
+span {
+  color: #2bd6b4;
+}
